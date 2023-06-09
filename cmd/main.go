@@ -24,7 +24,12 @@ func main() {
 	httpApplication := actor.NewHttpApplication(ctx, logger)
 	actors.Add(httpApplication.Start, httpApplication.Stop)
 
-	portWhitelist := strings.Split(os.Getenv("PS_PORT_WHITELIST"), ",")
+	portWhitelist := []string{}
+	v := os.Getenv("PS_PORT_WHITELIST")
+	if v != "" {
+		portWhitelist = strings.Split(v, ",")
+	}
+
 	portScanner := scanner.NewNmapPortScanner(portWhitelist)
 	portScanRunner := actor.NewPortScanRunner(ctx, logger, portScanner)
 	actors.Add(portScanRunner.Start, portScanRunner.Stop)

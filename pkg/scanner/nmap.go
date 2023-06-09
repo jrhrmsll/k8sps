@@ -27,8 +27,11 @@ func (ps *NmapPortScanner) Scan(ips []string) (map[string]struct{}, error) {
 		ctx,
 		nmap.WithTargets(ips...),
 		nmap.WithPorts("0-65535"),
-		nmap.WithPortExclusions(ps.portWhitelist...),
 	)
+
+	if len(ps.portWhitelist) > 0 {
+		scanner.AddOptions(nmap.WithPortExclusions(ps.portWhitelist...))
+	}
 
 	if err != nil {
 		log.Fatalf("unable to create nmap scanner: %v", err)
@@ -39,7 +42,7 @@ func (ps *NmapPortScanner) Scan(ips []string) (map[string]struct{}, error) {
 		log.Printf("run finished with warnings: %s\n", *warnings) // Warnings are non-critical errors from nmap.
 	}
 	if err != nil {
-		log.Fatalf("unable to run nmap scan: %v", err)
+		log.Fatalf("unable to run nmap scan: %v", err.Error())
 	}
 
 	entries := make(map[string]struct{})
