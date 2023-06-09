@@ -7,16 +7,16 @@ Designed to run as a HTTP application, `k8sps` listen in the port 8080 providing
 When a request is made a new port scan is triggered for all Kubernetes nodes in the cluster; producing a text report with multiple lines with the following format:
 `<node>: [<port>, <port>,<port>, ..., <port>]`.
 
-A second endpoint `/api/report` allows to download the port scan results or report.
+A second endpoint `/api/report` allows the user to download the port scan results or report.
 
 ## Build
-Created with the Go programing language for a containerized environment, is easy to create a Docker image with `docker build -t portscan .`.
+Created with the Go programming language for a containerized environment, it is easy to create a Docker image with `docker build -t portscan .`.
 
 ## Helm Chart
 A Helm Chart is provided, with defaults values.
 
 ## Testing
-Any solution for creating a local Kubernetes cluster is enought. The next steps allows to test with Minikube.
+Any solution for creating a local Kubernetes cluster is enought. The next steps allow testing with Minikube.
 
 1. Create the minikube cluster
 ```
@@ -43,7 +43,7 @@ helm install portscan helm/portscan
 kubectl port-forward deployment/portscan 8080:8080
 ```
 
-6. Triger a port scan execution
+6. Trigger a port scan execution
 ```
 curl -X POST  localhost:8080/api/scan
 ```
